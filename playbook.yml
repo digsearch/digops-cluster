@@ -1,0 +1,94 @@
+---
+- hosts: crawler_nodes
+  gather_facts: no
+  remote_user: ec2-user
+  sudo: yes
+  tasks:
+
+    # - name: Groupinstall development tools
+    #   yum: name="@Development tools" state=present
+
+    # - name: Install other stuff
+    #   yum: name={{ item }} state=present
+    #   with_items:
+    #     - libffi-devel
+    #     - python-devel
+    #     - python-setuptools
+    #     - postgresql93-devel
+    #     - libxslt-devel
+    #     - zlib-devel
+    #     - bzip2-devel
+    #     - openssl-devel
+    #     - ncurses-devel
+
+    # - name: Delete webcrawler stuff
+    #   shell: cd /home/ec2-user && rm -rf webcrawler*
+
+    # - name: Build python2.7
+    #   shell: cd /usr/local/src && wget http://www.python.org/ftp/python/2.7.3/Python-2.7.3.tar.bz2 && tar xf Python-2.7.3.tar.bz2 && cd Python-2.7.3 && ./configure --prefix=/usr/local && make && make altinstall
+
+    # - name: Build setuptools
+    #   shell: cd /usr/local/src && wget http://pypi.python.org/packages/source/d/distribute/distribute-0.6.27.tar.gz && tar xf distribute-0.6.27.tar.gz && cd distribute-0.6.27 && /usr/local/bin/python2.7 setup.py install
+
+    # - name: Install pip
+    #   shell: /usr/local/bin/easy_install-2.7 pip
+
+    # - name: Install requirements
+    #   shell: cd /home/ec2-user/webcrawler && /usr/local/bin/pip2.7 install -r requirements.txt
+
+    # - name: Install supervisor
+    #   shell: cd /home/ec2-user/webcrawler && /usr/local/bin/pip2.7 install supervisor
+
+    - copy: src=./webcrawler.tar.gz dest=/home/ec2-user/ owner=ec2-user group=ec2-user mode=0644
+    
+    - name: untar
+      shell: cd /home/ec2-user && tar xzvf webcrawler.tar.gz
+
+    - name: chown dir
+      shell: cd /home/ec2-user && chown ec2-user:ec2-user webcrawler -R
+
+    # - name: supervisord
+    #   shell: cd /home/ec2-user/webcrawler && /usr/local/bin/supervisord -c supervisor.conf
+
+    # - name: supervisorctl
+    #   shell: cd /home/ec2-user/webcrawler && /usr/local/bin/supervisorctl -c /home/ec2-user/webcrawler/supervisor.conf restart all
+
+    # - name: show supervisord running
+    #   shell: "ps aux|grep supervisor|grep -v grep|wc -l"
+    #   register: ps
+    # - debug: var=ps.stdout_lines
+
+    # - name: shutdown supervisor
+    #   shell: cd /home/ec2-user/webcrawler && /usr/local/bin/supervisorctl -c /home/ec2-user/webcrawler/supervisor.conf shutdown
+    
+    # - name: show scrapy running
+    #   shell: "ps aux|grep scrapy|grep -v grep|wc -l"
+    #   register: ps
+    # - debug: var=ps.stdout_lines
+
+    # - name: show load
+    #   shell: uptime
+    #   register: uptime
+    # - debug: var=uptime.stdout_lines
+
+    # - name: change owner for webcrawler dir
+    #   shell: "chown ec2-user: /home/ec2-user/webcrawler -R"
+
+    # - name: clear log files
+    #   shell: rm /home/ec2-user/*.log
+
+    # - name: get os distro
+    #   shell: cat /etc/*release
+    #   register: cat
+    # - debug: var=cat.stdout_lines
+
+    # - name: get established connections
+    #   shell: "netstat -a | grep EST"
+    #   register: netstat
+    # - debug: var=netstat.stdout_lines
+
+    # - name: show cpu and mem load
+    #   # shell: "top -bn1 | grep 'Cpu(s)' | sed 's/.*, *\([0-9.]*\)%* id.*/\1/' | awk '{print 100 - $1\"%\"}'"
+    #   shell: "free -m && grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage \"%\"}'"
+    #   register: cpuload
+    # - debug: var=cpuload.stdout_lines
