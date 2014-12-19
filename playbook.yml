@@ -20,6 +20,8 @@
     #     - bzip2-devel
     #     - openssl-devel
     #     - ncurses-devel
+    #     - git
+    #     - wget
 
     # - name: Delete webcrawler stuff
     #   shell: cd /home/ec2-user && rm -rf webcrawler*
@@ -39,13 +41,13 @@
     # - name: Install supervisor
     #   shell: cd /home/ec2-user/webcrawler && /usr/local/bin/pip2.7 install supervisor
 
-    - copy: src=./webcrawler.tar.gz dest=/home/ec2-user/ owner=ec2-user group=ec2-user mode=0644
+    # - copy: src=./webcrawler.tar.gz dest=/home/ec2-user/ owner=ec2-user group=ec2-user mode=0644
     
-    - name: untar
-      shell: cd /home/ec2-user && tar xzvf webcrawler.tar.gz
+    # - name: untar
+    #   shell: cd /home/ec2-user && tar xzvf webcrawler.tar.gz
 
-    - name: chown dir
-      shell: cd /home/ec2-user && chown ec2-user:ec2-user webcrawler -R
+    # - name: chown dir
+    #   shell: cd /home/ec2-user && chown ec2-user:ec2-user webcrawler -R
 
     # - name: supervisord
     #   shell: cd /home/ec2-user/webcrawler && /usr/local/bin/supervisord -c supervisor.conf

@@ -1,17 +1,11 @@
 [crawler_nodes]
-digbot1.dig.uz
-digbot2.dig.uz
-digbot3.dig.uz
-digbot4.dig.uz
+c1.dig.uz
+c2.dig.uz
 
 [new_crawlers]
-new-digbot1.dig.uz
-new-digbot2.dig.uz
-new-digbot3.dig.uz
-new-digbot4.dig.uz
 
 [redis_nodes]
-qm-master.dig.uz
+qm.dig.uz
 
 [db_nodes]
-db-master.dig.uz
+db.dig.uz
