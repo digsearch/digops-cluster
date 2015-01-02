@@ -5,6 +5,9 @@
   sudo: yes
   tasks:
 
+    # - name: Upgrade all packages
+    #   yum: name=* state=latest
+
     # - name: Groupinstall development tools
     #   yum: name="@Development tools" state=present
 
@@ -25,6 +28,9 @@
 
     # - name: Delete webcrawler stuff
     #   shell: cd /home/ec2-user && rm -rf webcrawler*
+  
+    # - git: repo=https://github.com/digsearch/digbot-webcrawler.git
+    #        dest=/home/ec2-user/webcrawler
 
     # - name: Build python2.7
     #   shell: cd /usr/local/src && wget http://www.python.org/ftp/python/2.7.3/Python-2.7.3.tar.bz2 && tar xf Python-2.7.3.tar.bz2 && cd Python-2.7.3 && ./configure --prefix=/usr/local && make && make altinstall
@@ -55,18 +61,18 @@
     # - name: supervisorctl
     #   shell: cd /home/ec2-user/webcrawler && /usr/local/bin/supervisorctl -c /home/ec2-user/webcrawler/supervisor.conf restart all
 
-    # - name: show supervisord running
-    #   shell: "ps aux|grep supervisor|grep -v grep|wc -l"
-    #   register: ps
-    # - debug: var=ps.stdout_lines
+    - name: show supervisord running
+      shell: "ps aux|grep supervisor|grep -v grep|wc -l"
+      register: ps
+    - debug: var=ps.stdout_lines
 
     # - name: shutdown supervisor
     #   shell: cd /home/ec2-user/webcrawler && /usr/local/bin/supervisorctl -c /home/ec2-user/webcrawler/supervisor.conf shutdown
     
-    # - name: show scrapy running
-    #   shell: "ps aux|grep scrapy|grep -v grep|wc -l"
-    #   register: ps
-    # - debug: var=ps.stdout_lines
+    - name: show scrapy running
+      shell: "ps aux|grep scrapy|grep -v grep|wc -l"
+      register: ps
+    - debug: var=ps.stdout_lines
 
     # - name: show load
     #   shell: uptime
@@ -78,19 +84,25 @@
 
     # - name: clear log files
     #   shell: rm /home/ec2-user/*.log
+    
+    # - name: ls home
+    #   shell: ls /home/ec2-user/ -lFXh
+    #   register: ls
+    # - debug: var=ls.stdout_lines
+
 
     # - name: get os distro
     #   shell: cat /etc/*release
     #   register: cat
     # - debug: var=cat.stdout_lines
 
-    # - name: get established connections
-    #   shell: "netstat -a | grep EST"
-    #   register: netstat
-    # - debug: var=netstat.stdout_lines
+    - name: get established connections
+      shell: "netstat -a | grep EST"
+      register: netstat
+    - debug: var=netstat.stdout_lines
 
-    # - name: show cpu and mem load
-    #   # shell: "top -bn1 | grep 'Cpu(s)' | sed 's/.*, *\([0-9.]*\)%* id.*/\1/' | awk '{print 100 - $1\"%\"}'"
-    #   shell: "free -m && grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage \"%\"}'"
-    #   register: cpuload
-    # - debug: var=cpuload.stdout_lines
+    - name: show cpu and mem load
+      # shell: "top -bn1 | grep 'Cpu(s)' | sed 's/.*, *\([0-9.]*\)%* id.*/\1/' | awk '{print 100 - $1\"%\"}'"
+      shell: "free -m && grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage \"%\"}'"
+      register: cpuload
+    - debug: var=cpuload.stdout_lines
